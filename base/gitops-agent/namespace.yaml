@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: k8s4u-gitops-agent
+  labels:
+    app.kubernetes.io/name: k8s4u-gitops-agent
+    app.kubernetes.io/managed-by: k8s4u-gitops-agent
+    kubernetes.io/metadata.name: k8s4u-gitops-agent
+spec:
+  finalizers:
+  - kubernetes

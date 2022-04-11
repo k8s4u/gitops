@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s4u-gitops-agent
+  namespace: k8s4u-gitops-agent
+  labels:
+    app.kubernetes.io/instance: k8s4u-gitops-agent-cluster-dev
+spec:
+  template:
+    spec:
+      containers:
+      - name: k8s4u-gitops-agent
+        env:
+        - name: ENVIRONMENT
+          value: cluster-dev

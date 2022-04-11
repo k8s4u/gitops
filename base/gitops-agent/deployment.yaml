@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s4u-gitops-agent
+  namespace: k8s4u-gitops-agent
+  labels:
+    app.kubernetes.io/name: k8s4u-gitops-agent
+    app.kubernetes.io/managed-by: k8s4u-gitops-agent
+    kubernetes.io/metadata.name: k8s4u-gitops-agent
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: k8s4u-gitops-agent
+  template:
+    metadata:
+      labels:
+        app: k8s4u-gitops-agent
+    spec:
+      serviceAccountName: k8s4u-gitops-agent
+      securityContext:
+        fsGroup: 2000
+      containers:
+      - name: k8s4u-gitops-agent
+        image: k8s4u/gitops-agent:dev-v27
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        env:
+        - name: GITREPO
+          value: git@github.com:k8s4u/gitops.git
+        securityContext:
+          readOnlyRootFilesystem: true
+          runAsUser: 1000
+          runAsGroup: 3000
+          seccompProfile:
+            type: RuntimeDefault
+        volumeMounts:
+          - name: gitops-tmpfs
+            mountPath: /gitops
+          - name: ssh-tmpfs
+            mountPath: /home/k8s4u/.ssh-tmp
+          - name: ssh-key
+            readOnly: true
+            mountPath: /home/k8s4u/.ssh
+      volumes:
+        - name: gitops-tmpfs
+          emptyDir: {}
+        - name: ssh-tmpfs
+          emptyDir: {}
+        - name: ssh-key
+          secret:
+            secretName: k8s4u-gitops-agent-git-ssh-key
+            defaultMode: 0600

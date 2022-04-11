@@ -1,0 +1,7 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: k8s4u-gitops-agent
+  namespace: k8s4u-gitops-agent
+  labels:
+    app.kubernetes.io/instance: k8s4u-gitops-agent-cluster-dev
