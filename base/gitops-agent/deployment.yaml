@@ -22,7 +22,7 @@ spec:
         fsGroup: 2000
       containers:
       - name: k8s4u-gitops-agent
-        image: k8s4u/gitops-agent:dev-v27
+        image: k8s4u/gitops-agent:dev-v28
         ports:
         - containerPort: 8080
           protocol: TCP
