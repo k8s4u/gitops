@@ -28,7 +28,7 @@ spec:
           protocol: TCP
         env:
         - name: GITREPO
-          value: https://github.com/k8s4u/gitops-agent.git
+          value: https://github.com/k8s4u/gitops.git
         securityContext:
           readOnlyRootFilesystem: true
           runAsUser: 1000
