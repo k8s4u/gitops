@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/managed-by: k8s4u-gitops-agent
     kubernetes.io/metadata.name: k8s4u-gitops-agent
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: k8s4u-gitops-agent
@@ -22,7 +22,7 @@ spec:
         fsGroup: 2000
       containers:
       - name: k8s4u-gitops-agent
-        image: k8s4u/gitops-agent:dev-v62
+        image: k8s4u/gitops-agent:dev-v63
         ports:
         - containerPort: 8080
           protocol: TCP
