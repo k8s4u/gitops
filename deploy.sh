@@ -17,15 +17,9 @@ if [ $? == 0 ]; then
     exit 1
 fi
 
-ssh-keygen -t rsa -b 4096 -f id_rsa -q -N ""
+echo "Please, give your GIT Personal Access Token"
+read -s -p "Personal Access Token: " PAT
 
 kubectl apply -f base/gitops-agent/namespace.yaml
-kubectl -n k8s4u-gitops-agent create secret generic k8s4u-gitops-agent-git-ssh-key --from-file=id_rsa --from-file=id_rsa.pub
-rm id_rsa
-
+kubectl -n k8s4u-gitops-agent create secret generic git-pat-token --from-literal=pat=$PAT
 kubectl apply -k envs/$1
-
-echo
-echo "Please, import following SSH public key to your Git environment:"
-cat id_rsa.pub
-rm id_rsa.pub

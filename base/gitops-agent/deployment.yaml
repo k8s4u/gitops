@@ -22,13 +22,13 @@ spec:
         fsGroup: 2000
       containers:
       - name: k8s4u-gitops-agent
-        image: k8s4u/gitops-agent:dev-v31
+        image: k8s4u/gitops-agent:dev-v62
         ports:
         - containerPort: 8080
           protocol: TCP
         env:
         - name: GITREPO
-          value: git@github.com:k8s4u/gitops.git
+          value: https://github.com/k8s4u/gitops-agent.git
         securityContext:
           readOnlyRootFilesystem: true
           runAsUser: 1000
@@ -38,17 +38,11 @@ spec:
         volumeMounts:
           - name: gitops-tmpfs
             mountPath: /gitops
-          - name: ssh-tmpfs
-            mountPath: /home/k8s4u/.ssh-tmp
-          - name: ssh-key
-            readOnly: true
-            mountPath: /home/k8s4u/.ssh
+          - name: git-auth
+            mountPath: /git-auth
       volumes:
         - name: gitops-tmpfs
           emptyDir: {}
-        - name: ssh-tmpfs
-          emptyDir: {}
-        - name: ssh-key
+        - name: git-auth
           secret:
-            secretName: k8s4u-gitops-agent-git-ssh-key
-            defaultMode: 0600
+            secretName: git-pat-token
